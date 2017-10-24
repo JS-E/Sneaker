@@ -128,7 +128,7 @@ public class Sneaker implements View.OnClickListener {
      * @param title string value of title
      * @return
      */
-    public Sneaker setTitle(String title) {
+    public Sneaker setTitle(@NonNull String title) {
         mTitle = title;
         return this;
     }
@@ -140,7 +140,7 @@ public class Sneaker implements View.OnClickListener {
      * @param color Color resource for title text
      * @return
      */
-    public Sneaker setTitle(String title, int color) {
+    public Sneaker setTitle(@NonNull String title, @NonNull int color) {
         mTitle = title;
         if (getContext() != null) {
             try {
@@ -158,7 +158,7 @@ public class Sneaker implements View.OnClickListener {
      * @param message String value of message
      * @return
      */
-    public Sneaker setMessage(String message) {
+    public Sneaker setMessage(@NonNull String message) {
         mMessage = message;
         return this;
     }
@@ -170,7 +170,7 @@ public class Sneaker implements View.OnClickListener {
      * @param color   Color resource for message text
      * @return
      */
-    public Sneaker setMessage(String message, int color) {
+    public Sneaker setMessage(@NonNull String message, @NonNull int color) {
         mMessage = message;
         if (getContext() != null) {
             try {
@@ -188,7 +188,7 @@ public class Sneaker implements View.OnClickListener {
      * @param icon Icon resource for sneaker
      * @return
      */
-    public Sneaker setIcon(int icon) {
+    public Sneaker setIcon(@NonNull int icon) {
         mIcon = icon;
         return this;
     }
@@ -200,13 +200,13 @@ public class Sneaker implements View.OnClickListener {
      * @param isCircular If icon is round or not
      * @return
      */
-    public Sneaker setIcon(int icon, boolean isCircular) {
+    public Sneaker setIcon(@NonNull int icon, @NonNull boolean isCircular) {
         mIcon = icon;
         mIsCircular = isCircular;
         return this;
     }
 
-    public Sneaker setIcon(int icon, int tintColor) {
+    public Sneaker setIcon(@NonNull int icon, @NonNull int tintColor) {
         mIcon = icon;
         if (getContext() != null) {
             try {
@@ -226,7 +226,7 @@ public class Sneaker implements View.OnClickListener {
      * @param isCircular If icon is round or not
      * @return
      */
-    public Sneaker setIcon(int icon, int tintColor, boolean isCircular) {
+    public Sneaker setIcon(@NonNull int icon, @NonNull int tintColor,@NonNull  boolean isCircular) {
         mIcon = icon;
         mIsCircular = isCircular;
         if (getContext() != null) {
@@ -245,7 +245,7 @@ public class Sneaker implements View.OnClickListener {
      * @param autoHide
      * @return
      */
-    public Sneaker autoHide(boolean autoHide) {
+    public Sneaker autoHide(@NonNull boolean autoHide) {
         mAutoHide = autoHide;
         return this;
     }
@@ -256,7 +256,7 @@ public class Sneaker implements View.OnClickListener {
      * @param height Height value for sneaker
      * @return
      */
-    public Sneaker setHeight(int height) {
+    public Sneaker setHeight(@NonNull int height) {
         mHeight = height;
         return this;
     }
@@ -268,7 +268,7 @@ public class Sneaker implements View.OnClickListener {
      * @param duration
      * @return
      */
-    public Sneaker setDuration(int duration) {
+    public Sneaker setDuration(@NonNull int duration) {
         mDuration = duration;
         return this;
     }
@@ -279,17 +279,18 @@ public class Sneaker implements View.OnClickListener {
      * @param listener
      * @return
      */
-    public Sneaker setOnSneakerClickListener(OnSneakerClickListener listener) {
+    public Sneaker setOnSneakerClickListener(@NonNull OnSneakerClickListener listener) {
         mListener = listener;
         return this;
     }
 
     /**
      * Set font for title and message
+     *
      * @param typeface
      * @return
      */
-    public Sneaker setTypeface(Typeface typeface) {
+    public Sneaker setTypeface(@NonNull Typeface typeface) {
         mTypeFace = typeface;
         return this;
     }
@@ -299,7 +300,7 @@ public class Sneaker implements View.OnClickListener {
      *
      * @param backgroundColor Color resource for sneaker background color
      */
-    public void sneak(int backgroundColor) {
+    public void sneak(@NonNull int backgroundColor) {
         if (getContext() != null) {
             try {
                 mBackgroundColor = ContextCompat.getColor(getContext(), backgroundColor);
@@ -342,6 +343,23 @@ public class Sneaker implements View.OnClickListener {
     }
 
     /**
+     * Shows updating sneaker with fixed icon, background color and icon color.
+     * Icons, background and text colors for this are not customizable
+     */
+    public Sneaker sneakUpdate() {
+        mBackgroundColor = Color.parseColor("#ff0000");
+        mTitleColor = Color.parseColor("#FFFFFF");
+        mTitle = "Updating...";
+        mMessageColor = Color.parseColor("#FFFFFF");
+        mIconColorFilterColor = Color.parseColor("#FFFFFF");
+        mIcon = R.drawable.ic_error;
+
+        if (getContext() != null)
+            sneakView();
+        return null;
+    }
+
+    /**
      * Shows success sneaker with fixed icon, background color and icon color.
      * Icons, background and text colors for this are not customizable
      */
@@ -361,7 +379,6 @@ public class Sneaker implements View.OnClickListener {
      * Creates the view and sneaks in
      */
     private void sneakView() {
-
         // Main layout
         LinearLayout layout = new LinearLayout(getContext());
         layoutWeakReference = new WeakReference<>(layout);
