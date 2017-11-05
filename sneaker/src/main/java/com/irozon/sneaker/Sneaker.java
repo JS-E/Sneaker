@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.Gravity;
@@ -237,9 +238,8 @@ public class Sneaker implements View.OnClickListener {
         return this;
     }
 
-    public Sneaker setIcon(int icon, int tintColor) {
-        mIconDrawable = null;
     public Sneaker setIcon(@NonNull int icon, @NonNull int tintColor) {
+        mIconDrawable = null;
         mIcon = icon;
         if (getContext() != null) {
             try {
@@ -272,7 +272,7 @@ public class Sneaker implements View.OnClickListener {
      * @param isCircular If icon is round or not
      * @return
      */
-    public Sneaker setIcon(@NonNull int icon, @NonNull int tintColor, @NonNull  boolean isCircular) {
+    public Sneaker setIcon(@NonNull int icon, @NonNull int tintColor, @NonNull boolean isCircular) {
         mIconDrawable = null;
         mIcon = icon;
         mIsCircular = isCircular;
@@ -482,7 +482,7 @@ public class Sneaker implements View.OnClickListener {
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(convertToDp(mIconSize), convertToDp(mIconSize));
                 ivIcon.setLayoutParams(lp);
 
-                if(mIcon == DEFAULT_VALUE) {
+                if (mIcon == DEFAULT_VALUE) {
                     ivIcon.setImageDrawable(mIconDrawable);
                 } else {
                     ivIcon.setImageResource(mIcon);
@@ -497,7 +497,7 @@ public class Sneaker implements View.OnClickListener {
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(convertToDp(mIconSize), convertToDp(mIconSize));
                 ivIcon.setLayoutParams(lp);
 
-                if(mIcon == DEFAULT_VALUE) {
+                if (mIcon == DEFAULT_VALUE) {
                     ivIcon.setImageDrawable(mIconDrawable);
                 } else {
                     ivIcon.setImageResource(mIcon);
