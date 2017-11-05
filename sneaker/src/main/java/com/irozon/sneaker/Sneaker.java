@@ -1,5 +1,7 @@
 package com.irozon.sneaker;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -374,6 +376,31 @@ public class Sneaker implements View.OnClickListener {
         return this;
     }
 
+    public void changeColour(Color color) {
+        if (isShowing()) {
+            ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), mBackgroundColor, color);
+            final LinearLayout layout = layoutWeakReference.get();
+            colorAnimation.setDuration(250); // milliseconds
+            colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+                @Override
+                public void onAnimationUpdate(ValueAnimator animator) {
+                    layout.setBackgroundColor((int) animator.getAnimatedValue());
+                }
+
+            });
+        }
+    }
+
+    /**
+     * Whether Sneaker is currently showing
+     *
+     * @return True: Sneaker is showing, False: Sneaker is gone
+     */
+    public boolean isShowing() {
+        return layoutWeakReference != null;
+    }
+
     /**
      * Shows sneaker with custom color
      *
@@ -426,12 +453,12 @@ public class Sneaker implements View.OnClickListener {
      * Icons, background and text colors for this are not customizable
      */
     public Sneaker sneakUpdate() {
-        mBackgroundColor = Color.parseColor("#ff0000");
+        mBackgroundColor = Color.parseColor("#f99922");
         mTitleColor = Color.parseColor("#FFFFFF");
         mTitle = "Updating...";
         mMessageColor = Color.parseColor("#FFFFFF");
         mIconColorFilterColor = Color.parseColor("#FFFFFF");
-        mIcon = R.drawable.ic_error;
+        mIcon = R.drawable.ic_update;
 
         if (getContext() != null)
             sneakView();
@@ -481,7 +508,6 @@ public class Sneaker implements View.OnClickListener {
                 AppCompatImageView ivIcon = new AppCompatImageView(getContext());
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(convertToDp(mIconSize), convertToDp(mIconSize));
                 ivIcon.setLayoutParams(lp);
-
                 if (mIcon == DEFAULT_VALUE) {
                     ivIcon.setImageDrawable(mIconDrawable);
                 } else {
@@ -492,6 +518,11 @@ public class Sneaker implements View.OnClickListener {
                     ivIcon.setColorFilter(mIconColorFilterColor);
                 }
                 layout.addView(ivIcon);
+                //-- Start Updating Animation
+                if (mIcon == R.drawable.ic_update) {
+                    ivIcon.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.update));
+
+                }
             } else {
                 RoundedImageView ivIcon = new RoundedImageView(getContext());
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(convertToDp(mIconSize), convertToDp(mIconSize));
@@ -567,8 +598,8 @@ public class Sneaker implements View.OnClickListener {
 
         layout.setOnClickListener(this);
         viewGroup.addView(layout);
-
         layout.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.popup_show));
+        //-- Setup Hide Handler
         if (mAutoHide) {
             Handler handler = new Handler();
             handler.removeCallbacks(null);
@@ -576,6 +607,8 @@ public class Sneaker implements View.OnClickListener {
                 @Override
                 public void run() {
                     getLayout().startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.popup_hide));
+
+
                     viewGroup.removeView(getLayout());
                 }
             }, mDuration);
@@ -604,7 +637,7 @@ public class Sneaker implements View.OnClickListener {
     /**
      * Returns status bar height.
      *
-     * @return
+     * @return Height of status bar
      */
     private int getStatusBarHeight() {
         Rect rectangle = new Rect();
@@ -615,6 +648,20 @@ public class Sneaker implements View.OnClickListener {
         int titleBarHeight = contentViewTop - statusBarHeight;
 
         return statusBarHeight;
+    }
+
+    /**
+     * Gets height of the title bar
+     *
+     * @return Height of title bar
+     */
+    private int getTitleBarHeight() {
+        Rect rectangle = new Rect();
+        Window window = ((Activity) getContext()).getWindow();
+        window.getDecorView().getWindowVisibleDisplayFrame(rectangle);
+        int statusBarHeight = rectangle.top;
+        int contentViewTop = window.findViewById(Window.ID_ANDROID_CONTENT).getTop();
+        return contentViewTop - statusBarHeight;
     }
 
     private int convertToDp(float sizeInDp) {

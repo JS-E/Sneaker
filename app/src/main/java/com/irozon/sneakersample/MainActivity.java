@@ -10,9 +10,10 @@ import com.irozon.sneaker.Sneaker;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button btShowError;
-    Button btShowSuccess;
-    Button btShowWarning;
+    private Button btShowError;
+    private Button btShowSuccess;
+    private Button btShowWarning;
+    private Button btShowUpdating;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,10 +23,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btShowError = (Button) findViewById(R.id.btShowError);
         btShowSuccess = (Button) findViewById(R.id.btShowSuccess);
         btShowWarning = (Button) findViewById(R.id.btShowWarning);
+        btShowUpdating = (Button) findViewById(R.id.btShowUpdating);
 
         btShowError.setOnClickListener(this);
         btShowSuccess.setOnClickListener(this);
         btShowWarning.setOnClickListener(this);
+        btShowUpdating.setOnClickListener(this);
     }
 
     @Override
@@ -49,6 +52,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .setTitle("Warning!!")
                         .setMessage("This is the warning message")
                         .sneakWarning();
+                break;
+            case R.id.btShowUpdating:
+                Sneaker.with(this)
+                        .sneakUpdate();
                 break;
         }
     }
