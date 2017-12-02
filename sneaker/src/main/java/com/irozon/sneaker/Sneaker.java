@@ -458,6 +458,7 @@ public class Sneaker implements View.OnClickListener {
         mTitle = "Updating...";
         mMessageColor = Color.parseColor("#FFFFFF");
         mIconColorFilterColor = Color.parseColor("#FFFFFF");
+        mAutoHide = false;
         mIcon = R.drawable.ic_update;
 
         if (getContext() != null)
